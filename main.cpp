@@ -1,13 +1,11 @@
-#include <iostream>
-#include <string>
-#include <vector>
-#include <iomanip> // setw
-#include <limits>  // numeric_limits
+#include<iostream>
+#include<string>
+#include<vector>
+#include<iomanip>
+#include<limits> 
 
 using namespace std;
-
-struct Bus
-{
+struct Bus{
     string number;
     string driver;
     string arrival;
@@ -17,68 +15,58 @@ struct Bus
     // seats[rows=8][cols=4]
     vector<vector<string>> seats;
 
-    Bus() : seats(8, vector<string>(4, "Empty")) {}
-
-    void setBasicInfo()
-    {
-        cout << "Enter Bus Number: ";
+    Bus() : seats(8,vector<string>(4,"Empty")){}
+    void setBasicInfo(){
+        cout <<"Enter Bus Number: ";
         getline(cin, number);
-        cout << "Enter Driver's Name: ";
+        cout <<"Enter Driver's Name: ";
         getline(cin, driver);
-        cout << "Arrival Time: ";
+        cout <<"Arrival Time: ";
         getline(cin, arrival);
-        cout << "Departure Time: ";
+        cout <<"Departure Time: ";
         getline(cin, depart);
-        cout << "From: ";
+        cout <<"From: ";
         getline(cin, from);
-        cout << "To: ";
-        getline(cin, to);
+        cout <<"To: ";
+        getline(cin,to);
     }
-
     // Reserve a seat (returns true if successful)
-    bool reserveSeat(int seatNo, const string &passenger)
-    {
-        if (seatNo < 1 || seatNo > 32)
+    bool reserveSeat(int seatNo,const string &passenger){
+        if (seatNo<1 || seatNo>32)
             return false;
-        int r = (seatNo - 1) / 4;
-        int c = (seatNo - 1) % 4;
-        if (seats[r][c] == "Empty")
-        {
-            seats[r][c] = passenger;
+        int r=(seatNo - 1)/4;
+        int c=(seatNo - 1)%4;
+        if (seats[r][c] == "Empty"){
+            seats[r][c]=passenger;
             return true;
         }
         return false;
     }
 
-    void showReservations() const
-    {
-        cout << "Bus Number: " << number << "\nDriver: " << driver
-             << "\nArrival: " << arrival << "\tDeparture: " << depart
-             << "\nFrom: " << from << "\tTo: " << to << "\n";
+    void showReservations() const{
+        cout <<"Bus Number: "<<number<<"\nDriver: "<<driver
+             << "\nArrival: "<< arrival<<"\tDeparture: " <<depart
+             << "\nFrom: " << from << "\tTo: "<< to <<"\n";
         printSeatMap();
     }
 
-    void printSeatMap() const
-    {
+    void printSeatMap() const{
         cout << "Seat map (Empty means available):\n";
         int idx = 1;
-        for (int r = 0; r < 8; ++r)
-        {
+        for (int r = 0; r < 8; ++r){
             for (int c = 0; c < 4; ++c)
             {
                 cout << setw(2) << idx++ << ". " << setw(10) << seats[r][c] << "  ";
             }
             cout << "\n";
         }
-        cout << "\n";
+        cout <<"\n";
     }
-
     // Count empty seats
-    int emptyCount() const
-    {
-        int cnt = 0;
-        for (auto &row : seats)
-            for (auto &s : row)
+    int emptyCount() const{
+        int cnt=0;
+        for (auto &row :seats)
+            for (auto &s :row)
                 if (s == "Empty")
                     ++cnt;
         return cnt;
@@ -89,27 +77,24 @@ static vector<Bus> buses;
 
 static void pauseForEnter()
 {
-    cout << "Press Enter to continue...";
+    cout<<"Press Enter to continue...";
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
-static void printHeader()
-{
+static void printHeader(){
     cout << "\n-------------------------------------\n";
     cout << "|   SIMPLE BUS RESERVATION SYSTEM   |\n";
     cout << "-------------------------------------\n";
 }
 
-int findBusIndexByNumber(const string &num)
-{
+int findBusIndexByNumber(const string &num){
     for (size_t i = 0; i < buses.size(); ++i)
         if (buses[i].number == num)
             return static_cast<int>(i);
     return -1;
 }
 
-void addNewBus()
-{
+void addNewBus(){
     Bus b;
     cout << "\nAdding new bus:\n";
     b.setBasicInfo();
@@ -117,8 +102,7 @@ void addNewBus()
     cout << "New Bus Added Successfully.\n";
 }
 
-void makeReservation()
-{
+void makeReservation(){
     if (buses.empty())
     {
         cout << "No buses available. Add a bus first.\n";
@@ -173,8 +157,7 @@ void makeReservation()
     }
 }
 
-void showReservation()
-{
+void showReservation(){
     if (buses.empty())
     {
         cout << "No buses available.\n";
